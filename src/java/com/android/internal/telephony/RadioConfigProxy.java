@@ -37,7 +37,7 @@ public class RadioConfigProxy {
     private final RadioConfigHidlServiceDeathRecipient mRadioConfigHidlServiceDeathRecipient;
     private final RadioConfigAidlServiceDeathRecipient mRadioConfigAidlServiceDeathRecipient;
 
-    private volatile android.hardware.radio.config.V1_1.IRadioConfig mHidlRadioConfigProxy = null;
+    private volatile android.hardware.radio.config.V1_0.IRadioConfig mHidlRadioConfigProxy = null;
     private volatile android.hardware.radio.config.IRadioConfig mAidlRadioConfigProxy = null;
 
     private HalVersion mRadioConfigHalVersion = RIL.RADIO_HAL_VERSION_UNKNOWN;
@@ -59,7 +59,7 @@ public class RadioConfigProxy {
      */
     public void setHidl(
             HalVersion radioConfigHalVersion,
-            android.hardware.radio.config.V1_1.IRadioConfig radioConfig) {
+            android.hardware.radio.config.V1_0.IRadioConfig radioConfig) {
         mRadioConfigHalVersion = radioConfigHalVersion;
         mHidlRadioConfigProxy = radioConfig;
         mIsAidl = false;
@@ -67,11 +67,19 @@ public class RadioConfigProxy {
     }
 
     /**
+     * Get HIDL IRadioConfig V1_0
+     * @return IRadioConfigV1_0
+     */
+    public android.hardware.radio.config.V1_0.IRadioConfig getHidl10() {
+        return mHidlRadioConfigProxy;
+    }
+
+    /**
      * Get HIDL IRadioConfig V1_1
      * @return IRadioConfigV1_1
      */
     public android.hardware.radio.config.V1_1.IRadioConfig getHidl11() {
-        return mHidlRadioConfigProxy;
+        return (android.hardware.radio.config.V1_1.IRadioConfig) mHidlRadioConfigProxy;
     }
 
     /**
@@ -188,7 +196,7 @@ public class RadioConfigProxy {
         if (isAidl()) {
             getAidl().getSimSlotsStatus(serial);
         } else {
-            getHidl11().getSimSlotsStatus(serial);
+            getHidl10().getSimSlotsStatus(serial);
         }
     }
 
@@ -223,7 +231,7 @@ public class RadioConfigProxy {
         if (isAidl()) {
             getAidl().setSimSlotsMapping(serial, RILUtils.convertSimSlotsMapping(slotMapping));
         } else {
-            getHidl11().setSimSlotsMapping(serial,
+            getHidl10().setSimSlotsMapping(serial,
                     RILUtils.convertSlotMappingToList(slotMapping));
         }
     }
@@ -293,13 +301,13 @@ public class RadioConfigProxy {
         private static final String TAG = "RadioConfigHidlSDR";
 
         private final RadioConfig mRadioConfig;
-        private android.hardware.radio.config.V1_1.IRadioConfig mService;
+        private android.hardware.radio.config.V1_0.IRadioConfig mService;
 
         RadioConfigHidlServiceDeathRecipient(RadioConfig radioConfig) {
             mRadioConfig = radioConfig;
         }
 
-        public void setService(android.hardware.radio.config.V1_1.IRadioConfig service) {
+        public void setService(android.hardware.radio.config.V1_0.IRadioConfig service) {
             mService = service;
         }
 
