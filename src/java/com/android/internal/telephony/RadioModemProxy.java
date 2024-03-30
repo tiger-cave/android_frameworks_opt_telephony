@@ -22,8 +22,8 @@ import android.telephony.Rlog;
 import com.android.internal.telephony.flags.Flags;
 
 /**
- * A holder for IRadioModem.
- * Use getAidl to get IRadioModem and call the AIDL implementations of the HAL APIs.
+ * A holder for IRadioModem. Use getHidl to get IRadio 1.0 and call the HIDL implementations or
+ * getAidl to get IRadioModem and call the AIDL implementations of the HAL APIs.
  */
 public class RadioModemProxy extends RadioServiceProxy {
     private static final String TAG = "RadioModemProxy";
@@ -85,11 +85,11 @@ public class RadioModemProxy extends RadioServiceProxy {
      * @throws RemoteException
      */
     public void enableModem(int serial, boolean on) throws RemoteException {
-        if (isEmpty()) return;
+        if (isEmpty() || mHalVersion.less(RIL.RADIO_HAL_VERSION_1_3)) return;
         if (isAidl()) {
             mModemProxy.enableModem(serial, on);
         } else {
-            mRadioProxy.enableModem(serial, on);
+            ((android.hardware.radio.V1_3.IRadio) mRadioProxy).enableModem(serial, on);
         }
     }
 
@@ -168,11 +168,11 @@ public class RadioModemProxy extends RadioServiceProxy {
      * @throws RemoteException
      */
     public void getModemStackStatus(int serial) throws RemoteException {
-        if (isEmpty()) return;
+        if (isEmpty() || mHalVersion.less(RIL.RADIO_HAL_VERSION_1_3)) return;
         if (isAidl()) {
             mModemProxy.getModemStackStatus(serial);
         } else {
-            mRadioProxy.getModemStackStatus(serial);
+            ((android.hardware.radio.V1_3.IRadio) mRadioProxy).getModemStackStatus(serial);
         }
     }
 
