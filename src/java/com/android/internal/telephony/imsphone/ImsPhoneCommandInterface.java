@@ -57,6 +57,14 @@ class ImsPhoneCommandInterface extends BaseCommands implements CommandsInterface
     }
 
     @Override
+    public void getIccSlotsStatus(Message result) {
+    }
+
+    @Override
+    public void setLogicalToPhysicalSlotMapping(int[] physicalSlots, Message result) {
+    }
+
+    @Override
     public void supplyIccPin(String pin, Message result) {
     }
 
@@ -83,6 +91,10 @@ class ImsPhoneCommandInterface extends BaseCommands implements CommandsInterface
     }
 
     @Override
+    @Deprecated public void getPDPContextList(Message result) {
+    }
+
+    @Override
     public void getDataCallList(Message result) {
     }
 
@@ -103,6 +115,14 @@ class ImsPhoneCommandInterface extends BaseCommands implements CommandsInterface
 
     @Override
     public void getIMSIForApp(String aid, Message result) {
+    }
+
+    @Override
+    public void getIMEI(Message result) {
+    }
+
+    @Override
+    public void getIMEISV(Message result) {
     }
 
     @Override
@@ -151,6 +171,15 @@ class ImsPhoneCommandInterface extends BaseCommands implements CommandsInterface
 
     @Override
     public void getLastCallFailCause (Message result) {
+    }
+
+    @Deprecated
+    @Override
+    public void getLastPdpFailCause (Message result) {
+    }
+
+    @Override
+    public void getLastDataCallFailCause (Message result) {
     }
 
     @Override
@@ -237,9 +266,10 @@ class ImsPhoneCommandInterface extends BaseCommands implements CommandsInterface
     }
 
     @Override
-    public void setupDataCall(int accessNetworkType, DataProfile dataProfile, boolean allowRoaming,
-            int reason, LinkProperties linkProperties, int pduSessionId, NetworkSliceInfo sliceInfo,
-            TrafficDescriptor trafficDescriptor, boolean matchAllRuleAllowed, Message result) {
+    public void setupDataCall(int accessNetworkType, DataProfile dataProfile, boolean isRoaming,
+            boolean allowRoaming, int reason, LinkProperties linkProperties, int pduSessionId,
+            NetworkSliceInfo sliceInfo, TrafficDescriptor trafficDescriptor,
+            boolean matchAllRuleAllowed, Message result) {
     }
 
     @Override
@@ -359,6 +389,10 @@ class ImsPhoneCommandInterface extends BaseCommands implements CommandsInterface
 
     @Override
     public void cancelPendingUssd (Message response) {
+    }
+
+    @Override
+    public void resetRadio(Message result) {
     }
 
     @Override
@@ -506,11 +540,11 @@ class ImsPhoneCommandInterface extends BaseCommands implements CommandsInterface
     }
 
     @Override
-    public void setInitialAttachApn(DataProfile dataProfile, Message result) {
+    public void setInitialAttachApn(DataProfile dataProfile, boolean isRoaming, Message result) {
     }
 
     @Override
-    public void setDataProfile(DataProfile[] dps, Message result) {
+    public void setDataProfile(DataProfile[] dps, boolean isRoaming, Message result) {
     }
 
     @Override
@@ -544,6 +578,18 @@ class ImsPhoneCommandInterface extends BaseCommands implements CommandsInterface
 
     @Override
     public void getRadioCapability(Message response) {
+    }
+
+    @Override
+    public void startLceService(int reportIntervalMs, boolean pullMode, Message result) {
+    }
+
+    @Override
+    public void stopLceService(Message result) {
+    }
+
+    @Override
+    public void pullLceData(Message result) {
     }
 
     @Override

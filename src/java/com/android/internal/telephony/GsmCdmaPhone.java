@@ -2702,6 +2702,7 @@ public class GsmCdmaPhone extends Phone {
         handleNullCipherEnabledChange();
         handleIdentifierDisclosureNotificationPreferenceChange();
         handleNullCipherNotificationPreferenceChanged();
+        startLceAfterRadioIsAvailable();
     }
 
     private void handleRadioOn() {
