@@ -362,6 +362,14 @@ class ImsPhoneCommandInterface extends BaseCommands implements CommandsInterface
     }
 
     @Override
+    public void invokeOemRilRequestRaw(byte[] data, Message response) {
+    }
+
+    @Override
+    public void invokeOemRilRequestStrings(String[] strings, Message response) {
+    }
+
+    @Override
     public void sendTerminalResponse(String contents, Message response) {
     }
 

@@ -1332,6 +1332,22 @@ public class SimulatedCommands extends BaseCommands
         }
     }
 
+    @Override
+    public void invokeOemRilRequestRaw(byte[] data, Message response) {
+        if (response != null) {
+            AsyncResult.forMessage(response).result = data;
+            response.sendToTarget();
+        }
+    }
+
+    @Override
+    public void invokeOemRilRequestStrings(String[] strings, Message response) {
+        if (response != null) {
+            AsyncResult.forMessage(response).result = strings;
+            response.sendToTarget();
+        }
+    }
+
     //***** SimulatedRadioControl
 
 

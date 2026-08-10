@@ -2707,6 +2707,28 @@ public abstract class Phone extends Handler implements PhoneInternalInterface {
     }
 
     /**
+     * Invokes RIL_REQUEST_OEM_HOOK_RAW on the RIL implementation.
+     *
+     * @deprecated OEMs should use a vendor-extension HAL instead.
+     */
+    @UnsupportedAppUsage
+    @Deprecated
+    public void invokeOemRilRequestRaw(byte[] data, Message response) {
+        mCi.invokeOemRilRequestRaw(data, response);
+    }
+
+    /**
+     * Invokes RIL_REQUEST_OEM_HOOK_STRINGS on the RIL implementation.
+     *
+     * @deprecated OEMs should use a vendor-extension HAL instead.
+     */
+    @UnsupportedAppUsage
+    @Deprecated
+    public void invokeOemRilRequestStrings(String[] strings, Message response) {
+        mCi.invokeOemRilRequestStrings(strings, response);
+    }
+
+    /**
      * Perform the radio modem reboot. The radio will be taken offline. Used for device
      * configuration by some CDMA operators.
      *
