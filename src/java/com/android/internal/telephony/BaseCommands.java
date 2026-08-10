@@ -688,20 +688,6 @@ public abstract class BaseCommands implements CommandsInterface {
     }
 
     @Override
-    public void setOnUnsolOemHookRaw(Handler h, int what, Object obj) {
-        mUnsolOemHookRawRegistrant = new Registrant(h, what, obj);
-    }
-
-    @Override
-    public void unSetOnUnsolOemHookRaw(Handler h) {
-        if (mUnsolOemHookRawRegistrant != null
-                && mUnsolOemHookRawRegistrant.getHandler() == h) {
-            mUnsolOemHookRawRegistrant.clear();
-            mUnsolOemHookRawRegistrant = null;
-        }
-    }
-
-    @Override
     public void unregisterForSignalInfo(Handler h) {
         mSignalInfoRegistrants.remove(h);
     }
