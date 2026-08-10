@@ -68,6 +68,8 @@ public abstract class BaseCommands implements CommandsInterface {
     protected RegistrantList mVoicePrivacyOnRegistrants = new RegistrantList();
     protected RegistrantList mVoicePrivacyOffRegistrants = new RegistrantList();
     @UnsupportedAppUsage
+    protected Registrant mUnsolOemHookRawRegistrant;
+    @UnsupportedAppUsage
     protected RegistrantList mOtaProvisionRegistrants = new RegistrantList();
     @UnsupportedAppUsage
     protected RegistrantList mCallWaitingInfoRegistrants = new RegistrantList();
@@ -672,6 +674,20 @@ public abstract class BaseCommands implements CommandsInterface {
     @Override
     public void registerForSignalInfo(Handler h, int what, Object obj) {
         mSignalInfoRegistrants.addUnique(h, what, obj);
+    }
+
+    @Override
+    public void setOnUnsolOemHookRaw(Handler h, int what, Object obj) {
+        mUnsolOemHookRawRegistrant = new Registrant(h, what, obj);
+    }
+
+    @Override
+    public void unSetOnUnsolOemHookRaw(Handler h) {
+        if (mUnsolOemHookRawRegistrant != null
+                && mUnsolOemHookRawRegistrant.getHandler() == h) {
+            mUnsolOemHookRawRegistrant.clear();
+            mUnsolOemHookRawRegistrant = null;
+        }
     }
 
     @Override

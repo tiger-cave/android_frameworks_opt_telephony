@@ -2771,6 +2771,28 @@ public abstract class Phone extends Handler implements PhoneInternalInterface {
     }
 
     /**
+     * Invokes RIL_REQUEST_OEM_HOOK_RAW on the RIL implementation.
+     *
+     * @deprecated OEMs should use a vendor-extension HAL instead.
+     */
+    @UnsupportedAppUsage
+    @Deprecated
+    public void invokeOemRilRequestRaw(byte[] data, Message response) {
+        mCi.invokeOemRilRequestRaw(data, response);
+    }
+
+    /**
+     * Invokes RIL_REQUEST_OEM_HOOK_STRINGS on the RIL implementation.
+     *
+     * @deprecated OEMs should use a vendor-extension HAL instead.
+     */
+    @UnsupportedAppUsage
+    @Deprecated
+    public void invokeOemRilRequestStrings(String[] strings, Message response) {
+        mCi.invokeOemRilRequestStrings(strings, response);
+    }
+
+    /**
      * Read one of the NV items defined in {@link RadioNVItems} / {@code ril_nv_items.h}.
      * Used for device configuration by some CDMA operators.
      *
