@@ -840,7 +840,7 @@ public class RIL extends BaseCommands implements CommandsInterface {
         if ((service >= HAL_SERVICE_IMS) && !isRadioServiceSupported(service)) {
             // Suppress the excessive logging for HAL_SERVICE_IMS when not supported.
             if (service != HAL_SERVICE_IMS) {
-                riljLogw("getRadioServiceProxy: " + serviceToString(service) + " for "
+                Rlog.w(RILJ_LOG_TAG, "getRadioServiceProxy: " + serviceToString(service) + " for "
                         + HIDL_SERVICE_NAME[mPhoneId] + " is not supported\n"
                         + android.util.Log.getStackTraceString(new RuntimeException()));
             }
