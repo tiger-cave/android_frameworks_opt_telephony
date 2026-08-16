@@ -107,6 +107,12 @@ public class RadioMessagingProxy extends RadioServiceProxy {
      */
     public void acknowledgeLastIncomingCdmaSms(int serial, boolean success, int cause)
             throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        android.hardware.radio.V1_0.CdmaSmsAck msg =
+                new android.hardware.radio.V1_0.CdmaSmsAck();
+        msg.errorClass = success ? 0 : 1;
+        msg.smsCauseCode = cause;
+        mRadioProxy.acknowledgeLastIncomingCdmaSms(serial, msg);
     }
 
     /**
@@ -133,6 +139,8 @@ public class RadioMessagingProxy extends RadioServiceProxy {
      * @throws RemoteException
      */
     public void deleteSmsOnRuim(int serial, int index) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.deleteSmsOnRuim(serial, index);
     }
 
     /**
@@ -156,6 +164,8 @@ public class RadioMessagingProxy extends RadioServiceProxy {
      * @throws RemoteException
      */
     public void getCdmaBroadcastConfig(int serial) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.getCdmaBroadcastConfig(serial);
     }
 
     /**
@@ -222,6 +232,8 @@ public class RadioMessagingProxy extends RadioServiceProxy {
      * @throws RemoteException
      */
     public void sendCdmaSms(int serial, byte[] pdu) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.sendCdmaSms(serial, RILUtils.convertToHalCdmaSmsMessage(pdu));
     }
 
     /**
@@ -231,6 +243,13 @@ public class RadioMessagingProxy extends RadioServiceProxy {
      * @throws RemoteException
      */
     public void sendCdmaSmsExpectMore(int serial, byte[] pdu) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        if (mHalVersion.greaterOrEqual(RIL.RADIO_HAL_VERSION_1_5)) {
+            ((android.hardware.radio.V1_5.IRadio) mRadioProxy).sendCdmaSmsExpectMore(
+                    serial, RILUtils.convertToHalCdmaSmsMessage(pdu));
+        } else {
+            mRadioProxy.sendCdmaSms(serial, RILUtils.convertToHalCdmaSmsMessage(pdu));
+        }
     }
 
     /**
@@ -332,6 +351,8 @@ public class RadioMessagingProxy extends RadioServiceProxy {
      * @throws RemoteException
      */
     public void setCdmaBroadcastActivation(int serial, boolean activate) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.setCdmaBroadcastActivation(serial, activate);
     }
 
     /**
@@ -342,6 +363,21 @@ public class RadioMessagingProxy extends RadioServiceProxy {
      */
     public void setCdmaBroadcastConfig(int serial, CdmaSmsBroadcastConfigInfo[] configs)
             throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        ArrayList<android.hardware.radio.V1_0.CdmaBroadcastSmsConfigInfo> halConfigs =
+                new ArrayList<>();
+        for (CdmaSmsBroadcastConfigInfo config : configs) {
+            for (int i = config.getFromServiceCategory();
+                    i <= config.getToServiceCategory(); i++) {
+                android.hardware.radio.V1_0.CdmaBroadcastSmsConfigInfo info =
+                        new android.hardware.radio.V1_0.CdmaBroadcastSmsConfigInfo();
+                info.serviceCategory = i;
+                info.language = config.getLanguage();
+                info.selected = config.isSelected();
+                halConfigs.add(info);
+            }
+        }
+        mRadioProxy.setCdmaBroadcastConfig(serial, halConfigs);
     }
 
     /**
@@ -428,6 +464,12 @@ public class RadioMessagingProxy extends RadioServiceProxy {
      * @throws RemoteException
      */
     public void writeSmsToRuim(int serial, int status, byte[] pdu) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        android.hardware.radio.V1_0.CdmaSmsWriteArgs args =
+                new android.hardware.radio.V1_0.CdmaSmsWriteArgs();
+        args.status = RILUtils.convertToHalSmsWriteArgsStatus(status);
+        args.message = RILUtils.convertToHalCdmaSmsMessage(pdu);
+        mRadioProxy.writeSmsToRuim(serial, args);
     }
 
     /**

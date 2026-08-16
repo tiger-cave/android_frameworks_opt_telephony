@@ -169,12 +169,20 @@ public class RadioSimProxy extends RadioServiceProxy {
         }
     }
 
+    /** Call the legacy HIDL IRadio#getCDMASubscription command. */
+    public void getCdmaSubscription(int serial) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.getCDMASubscription(serial);
+    }
+
     /**
      * Call IRadioSim#getCdmaSubscriptionSource
      * @param serial Serial number of request
      * @throws RemoteException
      */
     public void getCdmaSubscriptionSource(int serial) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.getCdmaSubscriptionSource(serial);
     }
 
     /**
@@ -641,6 +649,12 @@ public class RadioSimProxy extends RadioServiceProxy {
         }
     }
 
+    /** Call the legacy HIDL IRadio#setCdmaSubscriptionSource command. */
+    public void setCdmaSubscriptionSource(int serial, int cdmaSub) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.setCdmaSubscriptionSource(serial, cdmaSub);
+    }
+
     /**
      * Call IRadioSim#setFacilityLockForApp
      * @param serial Serial number of request
@@ -710,6 +724,14 @@ public class RadioSimProxy extends RadioServiceProxy {
      */
     public void setUiccSubscription(int serial, int slotId, int appIndex, int subId, int subStatus)
             throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        android.hardware.radio.V1_0.SelectUiccSub info =
+                new android.hardware.radio.V1_0.SelectUiccSub();
+        info.slot = slotId;
+        info.appIndex = appIndex;
+        info.subType = subId;
+        info.actStatus = subStatus;
+        mRadioProxy.setUiccSubscription(serial, info);
     }
 
     /**

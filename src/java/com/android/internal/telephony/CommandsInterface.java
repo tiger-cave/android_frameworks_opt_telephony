@@ -1895,6 +1895,31 @@ public interface CommandsInterface {
     public void iccTransmitApduBasicChannel(int cla, int instruction, int p1, int p2,
             int p3, String data, Message response);
 
+    /*
+     * Legacy IRadio 1.0 commands. These remain default methods so modern radio
+     * implementations do not have to implement APIs removed from radio AIDL.
+     */
+    default void setSuppServiceNotifications(boolean enable, Message response) {}
+    default void setBandMode(int bandMode, Message response) {}
+    default void queryAvailableBandMode(Message response) {}
+    default void setCdmaSubscriptionSource(int cdmaSubscriptionType, Message response) {}
+    default void queryCdmaRoamingPreference(Message response) {}
+    default void setCdmaRoamingPreference(int cdmaRoamingType, Message response) {}
+    default void sendCDMAFeatureCode(String featureCode, Message response) {}
+    default void getCDMASubscription(Message response) {}
+    default void deleteSmsOnRuim(int index, Message response) {}
+    default void getCdmaSubscriptionSource(Message response) {}
+
+    /** Read one of the legacy radio NV items. */
+    default void nvReadItem(int itemID, Message response, WorkSource workSource) {}
+
+    /** Write one of the legacy radio NV items. */
+    default void nvWriteItem(int itemID, String itemValue, Message response,
+            WorkSource workSource) {}
+
+    /** Update the CDMA Preferred Roaming List in radio NV storage. */
+    default void nvWriteCdmaPrl(byte[] preferredRoamingList, Message response) {}
+
     /**
      * Perform the specified type of NV config reset. The radio will be taken offline
      * and the device must be rebooted after erasing the NV. Used for device

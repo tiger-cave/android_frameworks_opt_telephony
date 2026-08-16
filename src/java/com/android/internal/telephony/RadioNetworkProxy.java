@@ -136,6 +136,14 @@ public class RadioNetworkProxy extends RadioServiceProxy {
      * @throws RemoteException
      */
     public void getAvailableBandModes(int serial) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.getAvailableBandModes(serial);
+    }
+
+    /** Call the legacy HIDL IRadio#getCdmaRoamingPreference command. */
+    public void getCdmaRoamingPreference(int serial) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.getCdmaRoamingPreference(serial);
     }
 
     /**
@@ -391,6 +399,8 @@ public class RadioNetworkProxy extends RadioServiceProxy {
      * @throws RemoteException
      */
     public void setBandMode(int serial, int bandMode) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.setBandMode(serial, bandMode);
     }
 
     /**
@@ -418,6 +428,8 @@ public class RadioNetworkProxy extends RadioServiceProxy {
      * @throws RemoteException
      */
     public void setCdmaRoamingPreference(int serial, int cdmaRoamingType) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.setCdmaRoamingPreference(serial, cdmaRoamingType);
     }
 
     /**
@@ -505,6 +517,8 @@ public class RadioNetworkProxy extends RadioServiceProxy {
      * @throws RemoteException
      */
     public void setLocationUpdates(int serial, boolean enable) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.setLocationUpdates(serial, enable);
     }
 
     /**
@@ -605,6 +619,8 @@ public class RadioNetworkProxy extends RadioServiceProxy {
      * @throws RemoteException
      */
     public void setSuppServiceNotifications(int serial, boolean enable) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.setSuppServiceNotifications(serial, enable);
     }
 
     /**

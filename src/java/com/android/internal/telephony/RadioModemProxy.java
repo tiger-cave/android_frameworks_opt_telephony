@@ -188,6 +188,12 @@ public class RadioModemProxy extends RadioServiceProxy {
         }
     }
 
+    /** Call the legacy HIDL IRadio#nvReadItem command. */
+    public void nvReadItem(int serial, int itemId) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.nvReadItem(serial, itemId);
+    }
+
     /**
      * Call IRadioModem#nvResetConfig
      * @param serial Serial number of request
@@ -202,6 +208,22 @@ public class RadioModemProxy extends RadioServiceProxy {
         } else {
             mRadioProxy.nvResetConfig(serial, RILUtils.convertToHalResetNvType(resetType));
         }
+    }
+
+    /** Call the legacy HIDL IRadio#nvWriteCdmaPrl command. */
+    public void nvWriteCdmaPrl(int serial, byte[] prl) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.nvWriteCdmaPrl(serial, RILUtils.primitiveArrayToArrayList(prl));
+    }
+
+    /** Call the legacy HIDL IRadio#nvWriteItem command. */
+    public void nvWriteItem(int serial, int itemId, String itemValue) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        android.hardware.radio.V1_0.NvWriteItem item =
+                new android.hardware.radio.V1_0.NvWriteItem();
+        item.itemId = itemId;
+        item.value = itemValue;
+        mRadioProxy.nvWriteItem(serial, item);
     }
 
     /**

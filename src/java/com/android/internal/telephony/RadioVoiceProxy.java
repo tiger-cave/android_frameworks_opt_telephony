@@ -481,6 +481,12 @@ public class RadioVoiceProxy extends RadioServiceProxy {
         }
     }
 
+    /** Call the legacy HIDL IRadio#sendCDMAFeatureCode command. */
+    public void sendCdmaFeatureCode(int serial, String featureCode) throws RemoteException {
+        if (isEmpty() || isAidl()) return;
+        mRadioProxy.sendCDMAFeatureCode(serial, featureCode);
+    }
+
     /**
      * Call IRadioVoice#sendDtmf
      * @param serial Serial number of request
